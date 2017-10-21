@@ -1,0 +1,75 @@
+<html>
+
+<head>
+<title>Brillante Segregacion</title>
+  <link rel="stylesheet" href="css/style.css" media="all" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+    integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+    crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+    integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+    crossorigin=""></script>
+
+
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <script type="application/shiny-singletons"></script>
+  <script type="application/html-dependencies">json2[2014.02.04];jquery[1.12.4];shiny[1.0.5];font-awesome[4.7.0];selectize[0.11.2];bootstrap[3.3.7];htmlwidgets[0.9];leaflet[0.7.7];leafletfix[1.0.0];leaflet-label[0.2.2];Proj4Leaflet[0.7.2];leaflet-binding[1.1.0];AdminLTE[2.0.6];shinydashboard[0.6.1]</script>
+<script src="shared/json2-min.js"></script>
+<script src="shared/jquery.min.js"></script>
+<link href="shared/shiny.css" rel="stylesheet" />
+<script src="shared/shiny.min.js"></script>
+<link href="shared/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+<link href="shared/selectize/css/selectize.bootstrap3.css" rel="stylesheet" />
+<!--[if lt IE 9]>
+<script src="shared/selectize/js/es5-shim.min.js"></script>
+<![endif]-->
+<script src="shared/selectize/js/selectize.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="shared/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<script src="shared/bootstrap/js/bootstrap.min.js"></script>
+<script src="shared/bootstrap/shim/html5shiv.min.js"></script>
+<script src="shared/bootstrap/shim/respond.min.js"></script>
+<script src="htmlwidgets-0.9/htmlwidgets.js"></script>
+<link href="leaflet-0.7.7/leaflet.css" rel="stylesheet" />
+
+<link href="leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<link href="leaflet-label-0.2.2/leaflet.label.css" rel="stylesheet" />
+<script src="js/leaflet.label.js"></script>
+<script src="js/Proj4-compressed.js"></script>
+<script src="js/Proj4.js"></script>
+
+<script src="Proj4Leaflet-0.7.2/proj4leaflet.js"></script>
+<script src="leaflet-binding-1.1.0/leaflet.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="css/style.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+    integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+    crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+    integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+    crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet@0.7.7/dist/leaflet.js"
+      integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+      crossorigin=""></script>
+
+
+
+</head>
+
+<body>
+<header class="d-flex align-items-center">
+  <h1 >BRILLANTE SEGREGACION</h1>
+</header>
+<div class="container-fluid">
+
+<input id="estab_for_region" type="checkbox" checked="checked"/>
+
+  <div role="tabpanel" class="tab-pane" id="shiny-tab-mapa">
+    <div id="mimapa" style="width:100%; height:600px; " class="leaflet html-widget html-widget-output"></div>
+  </div>
+</div>
+</body>
+</html>

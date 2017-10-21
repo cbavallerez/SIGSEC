@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <script type="application/shiny-singletons"></script>
+  <script type="application/html-dependencies">json2[2014.02.04];jquery[1.12.4];shiny[1.0.5];font-awesome[4.7.0];selectize[0.11.2];bootstrap[3.3.7];htmlwidgets[0.9];leaflet[0.7.7];leafletfix[1.0.0];leaflet-label[0.2.2];Proj4Leaflet[0.7.2];leaflet-binding[1.1.0];AdminLTE[2.0.6];shinydashboard[0.6.1]</script>
+<script src="shared/json2-min.js"></script>
+<script src="shared/jquery.min.js"></script>
+<link href="shared/shiny.css" rel="stylesheet" />
+<script src="shared/shiny.min.js"></script>
+<link href="shared/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+<link href="shared/selectize/css/selectize.bootstrap3.css" rel="stylesheet" />
+<!--[if lt IE 9]>
+<script src="shared/selectize/js/es5-shim.min.js"></script>
+<![endif]-->
+<script src="shared/selectize/js/selectize.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="shared/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<script src="shared/bootstrap/js/bootstrap.min.js"></script>
+<script src="shared/bootstrap/shim/html5shiv.min.js"></script>
+<script src="shared/bootstrap/shim/respond.min.js"></script>
+<script src="htmlwidgets-0.9/htmlwidgets.js"></script>
+<link href="leaflet-0.7.7/leaflet.css" rel="stylesheet" />
+<script src="leaflet-0.7.7/leaflet.js"></script>
+<link href="leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<link href="leaflet-label-0.2.2/leaflet.label.css" rel="stylesheet" />
+<script src="leaflet-label-0.2.2/leaflet.label.js"></script>
+<script src="Proj4Leaflet-0.7.2/proj4-compressed.js"></script>
+<script src="Proj4Leaflet-0.7.2/proj4leaflet.js"></script>
+<script src="leaflet-binding-1.1.0/leaflet.js"></script>
+<link href="AdminLTE-2.0.6/AdminLTE.min.css" rel="stylesheet" />
+<link href="AdminLTE-2.0.6/_all-skins.min.css" rel="stylesheet" />
+<script src="AdminLTE-2.0.6/app.min.js"></script>
+<link href="shinydashboard-0.6.1/shinydashboard.css" rel="stylesheet" />
+<script src="shinydashboard-0.6.1/shinydashboard.min.js"></script>  <title>BrillanteSegregacion</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css"/>
+  <script src="js/leaflet.js"></script>
+  <script src="js/stabsel.js"></script>
+
+</head>
+
+<body class="skin-blue" style="min-height: 611px;">
+  <div class="wrapper">
+    <header class="main-header">
+      <span class="logo">BrillanteSegregacion</span>
+      <nav class="navbar navbar-static-top" role="navigation">
+        <span style="display:none;">
+          <i class="fa fa-bars"></i>
+        </span>
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+          <span class="sr-only">Toggle navigation</span>
+        </a>
+        <div class="navbar-custom-menu">
+          <ul class="nav navbar-nav"></ul>
+        </div>
+      </nav>
+    </header>
+    <aside class="main-sidebar" data-collapsed="false">
+      <section class="sidebar">
+        <div class="container-fluid">
+          <ul class="sidebar-menu">
+            <li>
+              <a href="#shiny-tab-tabla" data-toggle="tab" data-value="tabla">
+                <span>Tabla</span>
+              </a>
+            </li>
+            <li>
+              <a href="#shiny-tab-mapa" data-toggle="tab" data-value="mapa">
+                <span>Mapa</span>
+              </a>
+            </li>
+          </ul>
+          <div class="form-group shiny-input-container">
+            <label class="control-label" for="input_region">
+              <h4>Seleccionar Region</h4>
+            </label>
+            <div>
+              <select id="input_region"><option value="1">Región de Tarapacá</option>
+<option value="2">Región de Antofagasta</option>
+<option value="3">Región de Atacama</option>
+<option value="4">Región de Coquimbo</option>
+<option value="5">Región de Valparaíso</option>
+<option value="6">Región del Libertador Gral. Bernardo O’Higgins</option>
+<option value="7">Región del Maule</option>
+<option value="8">Región del Biobío</option>
+<option value="9" selected>Región de la Araucanía</option>
+<option value="10">Región de los Lagos</option>
+<option value="11">Región de Aysén del Gral. Carlos Ibáñez del Campo</option>
+<option value="12">Región de Magallanes y de la Antártica Chilena</option>
+<option value="13">Región de Metropolitana de Santiago</option>
+<option value="14">Región de Los Ríos</option>
+<option value="15">Región de Arica y Parinacota</option></select>
+              <script type="application/json" data-for="input_region" data-nonempty="">{}</script>
+            </div>
+          </div>
+          <div id="seleccionar_comuna" class="shiny-html-output"></div>
+          <div id="inputRBD" class="shiny-html-output"></div>
+          <div id="establecimiento_datos" class="shiny-html-output"></div>
+          <div class="form-group shiny-input-container">
+            <div class="checkbox">
+              <label>
+                <input id="estab_for_region" type="checkbox" checked="checked"/>
+                <span>Ver establecimientos por región</span>
+              </label>
+            </div>
+          </div>
+          <div class="form-group shiny-input-container">
+            <div class="checkbox">
+              <label>
+                <input id="ver_shapefile" type="checkbox"/>
+                <span>Ver division comunal</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+    </aside>
+    <div class="content-wrapper">
+      <section class="content">
+        <div class="row">
+          <div class="col-sm-9">
+            <div class="tab-pane" title="asd" data-value="asd">
+              <div id="mimapa" style="width:100%; height:800px; " class="leaflet html-widget html-widget-output"></div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div>
+              <div class="box box-warning">
+                <div class="box-body">
+                  <ul>
+                    <div class="colores tipo1"></div>
+                    <li>Municipal</li>
+                    <div class="colores tipo2"></div>
+                    <li>Particular Subvenciando</li>
+                    <div class="colores tipo3"></div>
+                    <li>Particular Pagado</li>
+                    <div class="colores tipo4"></div>
+                    <li>Corp. de Administracion delegada</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="box box-warning">
+                <div class="box-body">
+                  <h5>NOMBRE DEL ESTABLECIMIENTO</h5>
+                  <h5>RBD</h5>
+                  <h5>N° de Alumnos</h5>
+                  <h5>N° de Alumnos SEP</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+
+</html>

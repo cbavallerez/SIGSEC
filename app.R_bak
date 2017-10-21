@@ -1,12 +1,14 @@
 library(mongolite)
+library(shiny)
+library(leaflet)
 
 i = 0
-dbEstablecimientos <- mongo("ESTABLECIMIENTOS", url = "mongodb://localhost:27017/sigsge")
+db <- mongo("ESTABLECIMIENTOS", url = "mongodb://localhost:27017/sigsge")
 
 # Read all the entries
-establecimientos <- dbEstablecimientos$find()
+establecimientos <- db$find()
 
-shinyServer(function(input, output) {
+server <- (function(input, output) {
 
   ubicacion_establecimiento <- function(input_region, cod_depe) {
 
@@ -14,33 +16,6 @@ shinyServer(function(input, output) {
   
   }
 
-
-    
-    
-    output$establecimiento_datos = renderUI({
-      
-      inputRBD <- input$inputRBD
-      # Read all the entries
-      ESTABLECIMIENTOS <- dbEstablecimientos$find(
-        query = sprintf('{"RBD" : %s}',inputRBD)
-        # ,fields = '{"_id" : false,"LATITUD" : true, "LONGITUD" : true, "COD_DEPE2" : true}'
-      )
-      
-      RBD_establecimiento_seleccionado <- as.numeric(input$inputRBD) 
-      list(
-        tags$p("Nombre: ",ESTABLECIMIENTOS$NOM_RBD),
-        tags$p("Longitud: "),
-        tags$p("Latitud: "),
-        tags$p("Matricula: "),
-        tags$p("Comuna: "),
-        tags$p("Cantidad de Alumnos SEP en la escuela: "),
-        tags$p("pi -> Proporcion SEP/ESC: "),
-        tags$p("Indice Seg: ")
-        
-        
-        
-      )
-    })
   
   ubicacion_establecimiento_comuna<- function(input_comuna, cod_depe) {
 
@@ -50,11 +25,11 @@ shinyServer(function(input, output) {
   
   comunas <- function(input_region) {
 
-    dbCOMUNAS <- mongo("COMUNAS", url = "mongodb://localhost:27017/sigsge")
+    db <- mongo("COMUNAS", url = "mongodb://localhost:27017/sigsge")
     
     
     # Read all the entries
-    COMUNAS <- dbCOMUNAS$find(
+    COMUNAS <- db$find(
       query = sprintf('{"COD_REG" : %s}',input_region)
       # ,fields = '{"_id" : false,"LATITUD" : true, "LONGITUD" : true, "COD_DEPE2" : true}'
     )
@@ -66,11 +41,11 @@ shinyServer(function(input, output) {
   output$seleccionar_comuna = renderUI({
     
     
-    dbCOMUNAS <- mongo("COMUNAS", url = "mongodb://localhost:27017/sigsge")
+    db <- mongo("COMUNAS", url = "mongodb://localhost:27017/sigsge")
     
     
     # Read all the entries
-    COMUNAS <- dbCOMUNAS$find(
+    COMUNAS <- db$find(
       query = sprintf('{"COD_REG" : %s}',input$input_region)
       # ,fields = '{"_id" : false,"LATITUD" : true, "LONGITUD" : true, "COD_DEPE2" : true}'
     )
@@ -102,9 +77,9 @@ shinyServer(function(input, output) {
     
     
     #Se inicia la conexion con la base de datos
-    dbRegiones <- mongo("REGIONES", url = "mongodb://localhost:27017/sigsge") 
+    db <- mongo("REGIONES", url = "mongodb://localhost:27017/sigsge") 
     
-    data <- dbRegiones$find(
+    data <- db$find(
       query = sprintf('{"ID" : %s}',input$input_region),
       fields = '{"_id" : false,"LATITUD" : true, "LONGITUD" : true}',
       limit = 5
@@ -113,7 +88,7 @@ shinyServer(function(input, output) {
     
     #En la siguiente salida se envia a la UI.R un input del tipo numerico que servira pa seleecionar un establecimiento 
     output$inputRBD = renderUI({
-      numericInput("establecimiento_seleccionado", h4("RBD"),  5578)
+      numericInput("establecimiento_seleccionado", "RBD:",  5578)
     })
     
     #Se carga la funcion leaflet con el argumento
@@ -206,7 +181,7 @@ shinyServer(function(input, output) {
     } else {
       proxy %>% setView(lng=p$lng, lat=p$lat, 15)
       output$inputRBD = renderUI({
-        numericInput("establecimiento_seleccionado", h4("RBD"), p$id  )
+        numericInput("establecimiento_seleccionado", "RBD:", p$id  )
       })
       
     }
@@ -225,3 +200,4 @@ shinyServer(function(input, output) {
 #Fin del ShinyServer
 })
 
+shinyApp(ui = htmlTemplate("www/index.html"), server)

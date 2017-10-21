@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!-- template.html -->
+<html>
+  <head>
+    {{ headContent() }}
+    <link rel="stylesheet" href="css/style.css" media="all" />
+    <link rel="stylesheet" href="www/css/style.css" media="all" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+      integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+      crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+      integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+      crossorigin=""></script>
+      <script src="https://use.fontawesome.com/a918c9aa42.js"></script>
+  </head>
+  <body>
+
+    <div class="mapa">
+      {{ mapa }}
+
+    </div>
+
+    <header class="d-flex align-items-center">
+      <h1 >BRILLANTE SEGREGACION!</h1>
+    </header>
+
+
+
+
+    <div class="sidebar col-md-3">
+      {{ seleccionar_comuna }}
+      {{ inputRBD }}
+      <!-- {{ establecimiento_datos }} -->
+      <h4>SELECIONA UNA REGIÓN</h4>
+      <select class="custom-select mb-2 mr-sm-2 mb-sm-0"  id="input_region"><option value="1">Región de Tarapacá</option>
+        <option value="2">Región de Antofagasta</option>
+        <option value="3">Región de Atacama</option>
+        <option value="4">Región de Coquimbo</option>
+        <option value="5">Región de Valparaíso</option>
+        <option value="6">Región del Libertador Gral. Bernardo O’Higgins</option>
+        <option value="7">Región del Maule</option>
+        <option value="8">Región del Biobío</option>
+        <option value="9" selected>Región de la Araucanía</option>
+        <option value="10">Región de los Lagos</option>
+        <option value="11">Región de Aysén del Gral. Carlos Ibáñez del Campo</option>
+        <option value="12">Región de Magallanes y de la Antártica Chilena</option>
+        <option value="13">Región de Metropolitana de Santiago</option>
+        <option value="14">Región de Los Ríos</option>
+        <option value="15">Región de Arica y Parinacota</option>
+      </select>
+      <br><br>
+      <label class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+        <input type="checkbox" class="custom-control-input" id="estab_for_region" checked="checked">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">Ver establecimientos por región</span>
+      </label>
+      <label class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+        <input type="checkbox" class="custom-control-input" id="ver_shapefile" checked="checked">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">Ver division comunal</span>
+      </label>
+
+
+
+    </div>
+
+    <div class="informacion">
+      <div class="caja_informacion">
+        <div class="campo_informacion">
+          <h5>Nombre del Establecimiento</h5>
+          <span>{{establecimiento_datos}}</span>
+
+        </div>
+      </div>
+    </div>
+
+  <footer>
+    <div class=" footersecciones">
+      <div class="footerseccion1">
+
+      </div>
+      <div class="footerseccion2">
+
+      </div>
+      <div class="footerseccion1">
+
+      </div>
+    </div>
+    <div class="letrachica">
+      <div class="detalles">
+        <div class="detalles2">
+          <span>
+            <ul>
+              <li><div class="detalle_color rojo"></div></li>
+              <li><i class="fa fa-circle tipo1" aria-hidden="true"></i></li>
+              <li> Municipal </li>
+              <li><i class="fa fa-circle tipo2" aria-hidden="true"></i></li>
+
+              <li> Particular Subvenciando </li>
+              <li><i class="fa fa-circle tipo3" aria-hidden="true"></i></li>
+
+              <li> Particular Pagado </li>
+              <li><i class="fa fa-circle tipo4" aria-hidden="true"></i></li>
+              <li> Corp. de Administracion delegada </li>
+            </ul>
+          </span>
+        </div>
+      </div>
+    </div>
+  </footer>
+  </body>
+</html>
