@@ -12,6 +12,9 @@ header{
 pointer-events: none;
 
 }
+/*p{
+  font-size: 2px;
+}*/
 .sidebar{
   background-color: rgba(31, 31, 31, 0.95);
   color: white;
@@ -41,14 +44,25 @@ margin-top: 4%;
 margin-right:  5%;
 width: 500px;
 /*height: 280px;*/
-background-color: rgba(18, 168, 222, 0.62);
+background-color: rgba(18, 168, 222, 0.19);
 padding: 20px;
 }
 .campo_informacion{
   padding: 5px;
-  background-color: rgba(37, 37, 37, 0.75);
   color: white;
 
+}
+.campo_informacion p{
+  background-color: rgba(37, 37, 37, 0.75);
+  margin: 5px;
+  padding-left: 10px;
+
+}
+.campo_informacion h5{
+  color: rgb(46, 46, 46);
+}
+.nombre_establecimiento{
+  color: red;
 }
 .mapa{
   position: fixed;

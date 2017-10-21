@@ -8,6 +8,7 @@ establecimientos <- dbEstablecimientos$find()
 
 shinyServer(function(input, output) {
 
+
   ubicacion_establecimiento <- function(input_region, cod_depe) {
 
     establecimiento_region <- subset (establecimientos, COD_REG_RBD==input_region & COD_DEPE2==cod_depe)
@@ -15,22 +16,26 @@ shinyServer(function(input, output) {
   }
 
 
-    
+  #################################################################################################################3
     
     output$establecimiento_datos = renderUI({
+      # dbEstablecimientos <- mongo("ESTABLECIMIENTOS", url = "mongodb://localhost:27017/sigsge")
       
-      inputRBD <- input$inputRBD
+      # print(inputRBD)
       # Read all the entries
       ESTABLECIMIENTOS <- dbEstablecimientos$find(
-        query = sprintf('{"RBD" : %s}',inputRBD)
+        query = sprintf('{"RBD" : %s}',input$establecimiento_seleccionado)
         # ,fields = '{"_id" : false,"LATITUD" : true, "LONGITUD" : true, "COD_DEPE2" : true}'
       )
       
+
+      # print(ESTABLECIMIENTOS)
+      
       RBD_establecimiento_seleccionado <- as.numeric(input$inputRBD) 
       list(
-        tags$p("Nombre: ",ESTABLECIMIENTOS$NOM_RBD),
-        tags$p("Longitud: "),
-        tags$p("Latitud: "),
+        tags$p(class = "nombre_establecimiento","Nombre: ",ESTABLECIMIENTOS$NOM_RBD),
+        tags$p("Longitud: ",ESTABLECIMIENTOS$LONGITUD),
+        tags$p("Latitud: ",ESTABLECIMIENTOS$LATITUD),
         tags$p("Matricula: "),
         tags$p("Comuna: "),
         tags$p("Cantidad de Alumnos SEP en la escuela: "),
@@ -41,6 +46,8 @@ shinyServer(function(input, output) {
         
       )
     })
+    
+###########################################################################################################################3
   
   ubicacion_establecimiento_comuna<- function(input_comuna, cod_depe) {
 

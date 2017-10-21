@@ -31,7 +31,7 @@
 
     <div class="sidebar col-md-3">
       {{ seleccionar_comuna }}
-      {{ inputRBD }}
+
       <!-- {{ establecimiento_datos }} -->
       <h4>SELECIONA UNA REGIÓN</h4>
       <select class="custom-select mb-2 mr-sm-2 mb-sm-0"  id="input_region"><option value="1">Región de Tarapacá</option>
@@ -50,7 +50,7 @@
         <option value="14">Región de Los Ríos</option>
         <option value="15">Región de Arica y Parinacota</option>
       </select>
-      <br><br>
+      {{ inputRBD }}
       <label class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
         <input type="checkbox" class="custom-control-input" id="estab_for_region" checked="checked">
         <span class="custom-control-indicator"></span>
@@ -69,7 +69,7 @@
     <div class="informacion">
       <div class="caja_informacion">
         <div class="campo_informacion">
-          <h5>Nombre del Establecimiento</h5>
+          <h5>Informacion del Establecimiento</h5>
           <span>{{establecimiento_datos}}</span>
 
         </div>
