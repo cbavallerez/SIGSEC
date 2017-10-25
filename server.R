@@ -1,3 +1,4 @@
+# install.packages("mongolite")
 library(mongolite)
 
 i = 0
@@ -20,15 +21,36 @@ shinyServer(function(input, output) {
     
     output$establecimiento_datos = renderUI({
       # dbEstablecimientos <- mongo("ESTABLECIMIENTOS", url = "mongodb://localhost:27017/sigsge")
-      
+      establecimiento_seleccionado <-input$establecimiento_seleccionado
       # print(inputRBD)
       # Read all the entries
       ESTABLECIMIENTOS <- dbEstablecimientos$find(
-        query = sprintf('{"RBD" : %s}',input$establecimiento_seleccionado)
+        query = sprintf('{"RBD" : %s}',establecimiento_seleccionado)
         # ,fields = '{"_id" : false,"LATITUD" : true, "LONGITUD" : true, "COD_DEPE2" : true}'
       )
       
-
+      if(!is.integer(ESTABLECIMIENTOS$CANT_ALUM)){
+        print(ESTABLECIMIENTOS$CANT_ALUM)
+        dbAlumnos <- mongo("ALUMNOS", url = "mongodb://localhost:27017/sigsge")
+        
+      
+        CANTIDAD_DE_ALUMNOS <- dbAlumnos$count(
+          query = sprintf('{"RBD": %s}',input$establecimiento_seleccionado)
+          )
+        print(CANTIDAD_DE_ALUMNOS)
+        # js <- sprintf('{"RBD": %s}','"$set": {"CANT_ALUM" : %s}',' false',' true',input$establecimiento_seleccionado ,CANTIDAD_DE_ALUMNOS)
+        # jsonlite::fromJSON(js)
+        # dbEstablecimientos$update(
+        # 
+        #   query = sprintf('{"RBD": %s}',input$establecimiento_seleccionado ,'{"$set": {"CANT_ALUM" : %s}}',CANTIDAD_DE_ALUMNOS,' false',' true')
+        #   )
+        jsonRBD <- sprintf('{"RBD":%s}',input$establecimiento_seleccionado)
+        jsonCANT_ALUM <- sprintf('{"$set":{"CANT_ALUM": %s}}',CANTIDAD_DE_ALUMNOS)
+        
+        dbEstablecimientos$update(jsonRBD, jsonCANT_ALUM)
+        # print ("RBD: "+ repr(RBD_ESTABLECIMIENTO)+" -+- CANTIDAD DE ALUMNOS: "+ repr(CANTIDAD_DE_ALUMNOS) +" -+- PROGRESO: "+ repr(PROGRESO) +" -+- FECHA: "+ time.strftime("%H:%M:%S %d/%m/%y") )
+        
+        }
       # print(ESTABLECIMIENTOS)
       
       RBD_establecimiento_seleccionado <- as.numeric(input$inputRBD) 
@@ -36,7 +58,7 @@ shinyServer(function(input, output) {
         tags$p(class = "nombre_establecimiento","Nombre: ",ESTABLECIMIENTOS$NOM_RBD),
         tags$p("Longitud: ",ESTABLECIMIENTOS$LONGITUD),
         tags$p("Latitud: ",ESTABLECIMIENTOS$LATITUD),
-        tags$p("Matricula: "),
+        tags$p("Matricula:",ESTABLECIMIENTOS$CANT_ALUM),
         tags$p("Comuna: "),
         tags$p("Cantidad de Alumnos SEP en la escuela: "),
         tags$p("pi -> Proporcion SEP/ESC: "),

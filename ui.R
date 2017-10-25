@@ -1,3 +1,5 @@
+# install.packages("shiny")
+# install.packages("leaflet")
 library(shiny)
 library(leaflet)
 
