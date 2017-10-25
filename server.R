@@ -30,16 +30,13 @@ shinyServer(function(input, output) {
       )
       
       if(!is.integer(ESTABLECIMIENTOS$CANT_ALUM)){
-        print(ESTABLECIMIENTOS$CANT_ALUM)
         dbAlumnos <- mongo("ALUMNOS", url = "mongodb://localhost:27017/sigsge")
         
       
         CANTIDAD_DE_ALUMNOS <- dbAlumnos$count(
           query = sprintf('{"RBD": %s}',input$establecimiento_seleccionado)
           )
-        print(CANTIDAD_DE_ALUMNOS)
-        # js <- sprintf('{"RBD": %s}','"$set": {"CANT_ALUM" : %s}',' false',' true',input$establecimiento_seleccionado ,CANTIDAD_DE_ALUMNOS)
-        # jsonlite::fromJSON(js)
+
         # dbEstablecimientos$update(
         # 
         #   query = sprintf('{"RBD": %s}',input$establecimiento_seleccionado ,'{"$set": {"CANT_ALUM" : %s}}',CANTIDAD_DE_ALUMNOS,' false',' true')
@@ -49,8 +46,27 @@ shinyServer(function(input, output) {
         
         dbEstablecimientos$update(jsonRBD, jsonCANT_ALUM)
         # print ("RBD: "+ repr(RBD_ESTABLECIMIENTO)+" -+- CANTIDAD DE ALUMNOS: "+ repr(CANTIDAD_DE_ALUMNOS) +" -+- PROGRESO: "+ repr(PROGRESO) +" -+- FECHA: "+ time.strftime("%H:%M:%S %d/%m/%y") )
+        ESTABLECIMIENTOS$CANT_ALUM <-CANTIDAD_DE_ALUMNOS
+      }
+      if(!is.integer(ESTABLECIMIENTOS$CANT_ALUM_RBD)){
+        dbALUMNOS_SEP <- mongo("ALUMNOS_SEP", url = "mongodb://localhost:27017/sigsge")
         
-        }
+        
+        CANTIDAD_DE_ALUMNOS_RBD <- dbALUMNOS_SEP$count(
+          query = sprintf('{"RBD": %s}',input$establecimiento_seleccionado)
+        )
+        
+        # dbEstablecimientos$update(
+        # 
+        #   query = sprintf('{"RBD": %s}',input$establecimiento_seleccionado ,'{"$set": {"CANT_ALUM" : %s}}',CANTIDAD_DE_ALUMNOS,' false',' true')
+        #   )
+        jsonRBD <- sprintf('{"RBD":%s}',input$establecimiento_seleccionado)
+        jsonCANT_ALUM_RBD <- sprintf('{"$set":{"CANT_ALUM_RBD": %s}}',CANTIDAD_DE_ALUMNOS_RBD)
+        
+        dbEstablecimientos$update(jsonRBD, jsonCANT_ALUM_RBD)
+        # print ("RBD: "+ repr(RBD_ESTABLECIMIENTO)+" -+- CANTIDAD DE ALUMNOS: "+ repr(CANTIDAD_DE_ALUMNOS) +" -+- PROGRESO: "+ repr(PROGRESO) +" -+- FECHA: "+ time.strftime("%H:%M:%S %d/%m/%y") )
+        ESTABLECIMIENTOS$CANT_ALUM_RBD <-CANTIDAD_DE_ALUMNOS_RBD
+      }
       # print(ESTABLECIMIENTOS)
       
       RBD_establecimiento_seleccionado <- as.numeric(input$inputRBD) 
@@ -59,8 +75,8 @@ shinyServer(function(input, output) {
         tags$p("Longitud: ",ESTABLECIMIENTOS$LONGITUD),
         tags$p("Latitud: ",ESTABLECIMIENTOS$LATITUD),
         tags$p("Matricula:",ESTABLECIMIENTOS$CANT_ALUM),
-        tags$p("Comuna: "),
-        tags$p("Cantidad de Alumnos SEP en la escuela: "),
+        tags$p("Comuna: ",ESTABLECIMIENTOS$NOM_COM_RBD),
+        tags$p("Cantidad de Alumnos SEP en la escuela: ",ESTABLECIMIENTOS$CANT_ALUM_RBD),
         tags$p("pi -> Proporcion SEP/ESC: "),
         tags$p("Indice Seg: ")
         
