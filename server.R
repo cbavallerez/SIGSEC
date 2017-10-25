@@ -48,37 +48,66 @@ shinyServer(function(input, output) {
         # print ("RBD: "+ repr(RBD_ESTABLECIMIENTO)+" -+- CANTIDAD DE ALUMNOS: "+ repr(CANTIDAD_DE_ALUMNOS) +" -+- PROGRESO: "+ repr(PROGRESO) +" -+- FECHA: "+ time.strftime("%H:%M:%S %d/%m/%y") )
         ESTABLECIMIENTOS$CANT_ALUM <-CANTIDAD_DE_ALUMNOS
       }
-      if(!is.integer(ESTABLECIMIENTOS$CANT_ALUM_RBD)){
+      if(!is.integer(ESTABLECIMIENTOS$CANT_ALUM_SEP)){
         dbALUMNOS_SEP <- mongo("ALUMNOS_SEP", url = "mongodb://localhost:27017/sigsge")
         
         
-        CANTIDAD_DE_ALUMNOS_RBD <- dbALUMNOS_SEP$count(
+        CANTIDAD_DE_ALUMNOS_SEP <- dbALUMNOS_SEP$count(
           query = sprintf('{"RBD": %s}',input$establecimiento_seleccionado)
         )
         
-        # dbEstablecimientos$update(
-        # 
-        #   query = sprintf('{"RBD": %s}',input$establecimiento_seleccionado ,'{"$set": {"CANT_ALUM" : %s}}',CANTIDAD_DE_ALUMNOS,' false',' true')
-        #   )
+
         jsonRBD <- sprintf('{"RBD":%s}',input$establecimiento_seleccionado)
-        jsonCANT_ALUM_RBD <- sprintf('{"$set":{"CANT_ALUM_RBD": %s}}',CANTIDAD_DE_ALUMNOS_RBD)
+        jsonCANT_ALUM_SEP <- sprintf('{"$set":{"CANT_ALUM_SEP": %s}}',CANTIDAD_DE_ALUMNOS_SEP)
         
-        dbEstablecimientos$update(jsonRBD, jsonCANT_ALUM_RBD)
-        # print ("RBD: "+ repr(RBD_ESTABLECIMIENTO)+" -+- CANTIDAD DE ALUMNOS: "+ repr(CANTIDAD_DE_ALUMNOS) +" -+- PROGRESO: "+ repr(PROGRESO) +" -+- FECHA: "+ time.strftime("%H:%M:%S %d/%m/%y") )
-        ESTABLECIMIENTOS$CANT_ALUM_RBD <-CANTIDAD_DE_ALUMNOS_RBD
+        dbEstablecimientos$update(jsonRBD, jsonCANT_ALUM_SEP)
+        ESTABLECIMIENTOS$CANT_ALUM_SEP <-CANTIDAD_DE_ALUMNOS_SEP
+      }
+      if(!is.integer(ESTABLECIMIENTOS$CANT_ALUM_SEP_COM)){
+        dbALUMNOS_SEP <- mongo("ALUMNOS_SEP", url = "mongodb://localhost:27017/sigsge")
+        
+        
+        CANTIDAD_DE_ALUMNOS_SEP_COM <- dbALUMNOS_SEP$count(
+          query = sprintf('{"COD_COM_RBD": %s}',as.numeric(input$select_comuna))
+        )
+        
+        jsonRBD <- sprintf('{"RBD":%s}',input$establecimiento_seleccionado)
+        jsonCANT_ALUM_SEP_COM <- sprintf('{"$set":{"CANT_ALUM_SEP_COM": %s}}',CANTIDAD_DE_ALUMNOS_SEP_COM)
+        
+        dbEstablecimientos$update(jsonRBD, jsonCANT_ALUM_SEP_COM)
+        ESTABLECIMIENTOS$CANT_ALUM_SEP_COM <-CANTIDAD_DE_ALUMNOS_SEP_COM
+      }
+      if(!is.integer(ESTABLECIMIENTOS$CANT_ALUM_COM)){
+        dbALUMNOS <- mongo("ALUMNOS", url = "mongodb://localhost:27017/sigsge")
+        
+        
+        CANTIDAD_DE_ALUMNOS_COMUNA <- dbALUMNOS$count(
+          query = sprintf('{"COD_COM_RBD": %s}',as.numeric(input$select_comuna))
+        )
+        
+   
+        jsonRBD <- sprintf('{"RBD":%s}',input$establecimiento_seleccionado)
+        jsonCANT_ALUM_COM <- sprintf('{"$set":{"CANT_ALUM_COM": %s}}',CANTIDAD_DE_ALUMNOS_COMUNA)
+        
+        dbEstablecimientos$update(jsonRBD, jsonCANT_ALUM_COM)
+        ESTABLECIMIENTOS$CANT_ALUM_COM <-CANTIDAD_DE_ALUMNOS_COMUNA
       }
       # print(ESTABLECIMIENTOS)
-      
+      np <- ESTABLECIMIENTOS$CANT_ALUM - ESTABLECIMIENTOS$CANT_ALUM_SEP
+      NP <- ESTABLECIMIENTOS$CANT_ALUM_COM - ESTABLECIMIENTOS$CANT_ALUM_SEP_COM
+      S <- abs(exp(-ESTABLECIMIENTOS$CANT_ALUM_SEP/ESTABLECIMIENTOS$CANT_ALUM_SEP_COM)-exp(-np/NP))
+      # plot(density(S))
       RBD_establecimiento_seleccionado <- as.numeric(input$inputRBD) 
       list(
         tags$p(class = "nombre_establecimiento","Nombre: ",ESTABLECIMIENTOS$NOM_RBD),
-        tags$p("Longitud: ",ESTABLECIMIENTOS$LONGITUD),
-        tags$p("Latitud: ",ESTABLECIMIENTOS$LATITUD),
+        # tags$p("Longitud: ",ESTABLECIMIENTOS$LONGITUD),
+        # tags$p("Latitud: ",ESTABLECIMIENTOS$LATITUD),
         tags$p("Matricula:",ESTABLECIMIENTOS$CANT_ALUM),
-        tags$p("Comuna: ",ESTABLECIMIENTOS$NOM_COM_RBD),
-        tags$p("Cantidad de Alumnos SEP en la escuela: ",ESTABLECIMIENTOS$CANT_ALUM_RBD),
-        tags$p("pi -> Proporcion SEP/ESC: "),
-        tags$p("Indice Seg: ")
+        # tags$p("Comuna: ",ESTABLECIMIENTOS$NOM_COM_RBD),
+        tags$p("Cantidad de Alumnos en la Comuna: ",ESTABLECIMIENTOS$CANT_ALUM_COM),
+        tags$p("Cantidad de Alumnos SEP en la escuela: ",ESTABLECIMIENTOS$CANT_ALUM_SEP),
+        tags$p("Cantidad de Alumnos SEP en la comuna: ",ESTABLECIMIENTOS$CANT_ALUM_SEP_COM),
+        tags$p("Indice Seg: ", S)
         
         
         
